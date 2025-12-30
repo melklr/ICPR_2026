@@ -52,3 +52,13 @@ Code and experiments for the ICPR 2026 submission on frugal vs deep learning app
   - `41_scibert_master.py`: main SciBERT training and evaluation pipeline.  
   - `42_scibert_fewshot.py`: few-shot experiments with SciBERT.
 
+
+## Datasets
+
+The final datasets used in the experiments are stored in the `dataset/` folder:
+
+- `dataset/minimized_silver_dataset.csv`  
+  Automatically labeled **Silver** corpus built from CORDIS project summaries using the hybrid weak supervision pipeline.
+
+- `dataset/IEA_Clean_Guide_Final_with_Text.csv`  
+  Expert-annotated **Gold** corpus derived from the IEA Clean Energy Technology Guide, used as the target evaluation domain.
