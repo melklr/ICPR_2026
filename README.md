@@ -2,6 +2,27 @@
 Code and experiments for the ICPR 2026 submission on frugal vs deep learning approaches for text-based prediction under domain shift and ordinal constraints.
 
 ## Abstract
+Technology Readiness Levels (TRLs) are an ordinal maturity
+scale widely used in innovation assessment, yet infering them from text is
+hindered by scarce labeled data and domain-dependent conventions. We
+formulate TRL inference as a latent ordinal pattern recognition problem
+under weak supervision. We introduce a large silver corpus constructed
+from project descriptions using hybrid symbolic–semantic labeling, and
+reconstruction rules to improve alignment with expert annotations. We
+compare flat classification, regression, ordinal decomposition, and hierarchical
+models using ordinal error metrics. Linear models recover a coherent
+ordinal pattern in-domain, with errors concentrated within ±1
+level. We show that this structure degrades under zero-shot transfer to
+an expert gold corpus, revealing a strong semantic domain shift. We
+also show that rigid ordinal constraints are brittle under transfer, while
+soft hierarchical routing and lightweight hybrid ensembling significantly
+reduce large ordinal errors. Analyses of grammatical and structural representations
+indicate that domain shift is driven primarily by semantic
+conventions rather than syntax. These results highlight both the potential
+and the limits of weakly supervised ordinal pattern recognition in
+real-world settings. To foster reproducibility, we release the dataset and
+the code in this Github repository.
+
 ## Objectives
 - Investigate frugal models (linear SVM / logistic regression) with lexical and structural features.
 - Compare classification vs regression formulations, including ordinal-specific strategies.
