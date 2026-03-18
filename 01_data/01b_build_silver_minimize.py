@@ -5,9 +5,15 @@ import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-# ==========================================
-# 1. CLASSE DE DÉTECTION TRL (règle MIN)
-# ==========================================
+"""
+Silver dataset construction with MINIMIZE rule for TRL detection.
+REGEX detection is prioritized, and in case of multiple mentions,
+- If multiple TRL mentions are found, the LOWEST value is retained.
+- For ranges (e.g., '4-6'), the MINIMUM is taken.
+If no REGEX match is found, TF-IDF inference is used as a fallback.
+Similarity between text and TRL reference descriptions is computed using cosine similarity.
+treshold for inference acceptance is set at 0.15.
+"""
 class TRLDetectorInferrerMin:
     def __init__(self):
         # --- Definitions TRL (Sémantique) ---
@@ -45,11 +51,11 @@ class TRLDetectorInferrerMin:
     def clean_text(self, text):
         if not isinstance(text, str):
             return ""
-        text = re.sub(r"http\S+", "", text)  # Pas d'URL
+        text = re.sub(r"http\S+", "", text)  
         return re.sub(r"\s+", " ", text).strip()
 
     def get_sentence_context(self, text, start_idx, end_idx):
-        """Récupère la phrase entourant les indices (délimité par des points)"""
+        """Retrieve the sentence surrounding the indices (delimited by periods)"""
         s_bound = text.rfind(".", 0, start_idx) + 1
         e_bound = text.find(".", end_idx)
         if e_bound == -1:
@@ -66,31 +72,27 @@ class TRLDetectorInferrerMin:
 
     def detect_smart(self, text):
         """
-        Retourne: (Label, Source, Confiance, Justification)
-        RÈGLE MINIMIZE :
-        - si plusieurs TRL sont trouvés dans le texte (ex: 'TRL 3', 'TRL 7', 'TRL 4-6'),
-          on retient la PLUS PETITE valeur possible.
-        - pour un range '4-6', on prend 4 (min du range).
+        Return: (Label, Source, Confidence, Justification)
         """
         text_clean = self.clean_text(text)
         if len(text_clean) < 10:
             return None, None, 0.0, ""
 
-        # 1. REGEX (L'Expert) - RÈGLE MIN
+        # 1. REGEX
         matches = list(self.REGEX_TRL.finditer(text_clean))
 
         if matches:
-            best_trl = 10  # plus grand que 9 pour pouvoir minimiser
+            best_trl = 10  
             best_justif = ""
 
             for match in matches:
                 try:
                     val1 = int(match.group(1))
                     val2 = int(match.group(2)) if match.group(2) else val1
-                    # Pour un range (ex: "4-6"), on prend le MINIMUM
+                    # For a range (e.g., "4-6"), take the MINIMUM
                     current_trl = min(val1, val2)
 
-                    # On garde la valeur la plus FAIBLE trouvée dans tout le texte
+                    # Keep the LOWEST value found in the entire text
                     if current_trl < best_trl:
                         best_trl = current_trl
                         start_idx, end_idx = match.span()
@@ -103,7 +105,7 @@ class TRLDetectorInferrerMin:
             if 1 <= best_trl <= 9:
                 return best_trl, "regex_min", 1.0, best_justif
 
-        # 2. Fallback INFÉRENCE (Le Devin) - identique
+        # 2. Fallback INFERENCE
         try:
             sentences = re.split(r"(?<=[.!?])\s+", text_clean)
             valid_sentences = [s for s in sentences if len(s) > 20]
@@ -117,7 +119,7 @@ class TRLDetectorInferrerMin:
             sent_idx, trl_idx = np.unravel_index(max_idx_flat, sims.shape)
             best_score = sims[sent_idx, trl_idx]
 
-            if best_score > 0.15:
+            if best_score > 0.15: #similarity threshold
                 found_trl = self.trl_levels[trl_idx]
                 justif = valid_sentences[sent_idx].strip()
                 return found_trl, "inference", float(best_score), justif
@@ -128,34 +130,34 @@ class TRLDetectorInferrerMin:
         return None, None, 0.0, ""
 
 # ==========================================
-# 2. PIPELINE PRINCIPAL
+# 2. MAIN PIPELINE
 # ==========================================
 def main():
     PROJECTS_FILE = r"C:\Users\Melusine\.venv\project.csv"
 
-    print(f"--- Chargement massif : {PROJECTS_FILE} ---")
+    print(f"--- Loading files: {PROJECTS_FILE} ---")
     try:
         df = pd.read_csv(PROJECTS_FILE, sep=";", on_bad_lines="skip", low_memory=False)
         if len(df.columns) < 3:
             df = pd.read_csv(PROJECTS_FILE, sep=",", on_bad_lines="skip", low_memory=False)
     except Exception as e:
-        print(f"Erreur lecture : {e}")
+        print(f"Error reading file: {e}")
         return
 
-    print(f"Total Projets bruts : {len(df)}")
+    print(f"Total Raw Projects: {len(df)}")
 
-    # Standardisation colonnes
+    # Standardize columns
     df.columns = [c.lower() for c in df.columns]
 
-    # Préparation Texte (Titre + Objectif)
+    # Prepare Text (Title + Objective)
     df["text"] = df["title"].fillna("") + ". " + df["objective"].fillna("")
 
-    # Nettoyage : on vire les textes trop courts (< 50 chars)
+    # Cleaning: remove texts that are too short (< 50 chars)
     df = df[df["text"].str.len() > 50].copy()
-    print(f"Projets avec texte valide : {len(df)}")
+    print(f"Projects with valid text: {len(df)}")
 
-    # --- DÉTECTION ---
-    print("Lancement de l'analyse Smart (Regex MIN + Inference)...")
+    # --- DETECTION ---
+    print("Starting analysis (Regex + Inference)...")
     detector = TRLDetectorInferrerMin()
 
     results = df["text"].apply(lambda x: detector.detect_smart(x))
@@ -165,11 +167,11 @@ def main():
     df["conf"] = [r[2] for r in results]
     df["justification"] = [r[3] for r in results]
 
-    # --- FILTRAGE SILVER ---
+    # --- FILTERING SILVER ---
     df_silver = df.dropna(subset=["label"]).copy()
     df_silver["label"] = df_silver["label"].astype(int)
 
-    # SAUVEGARDE AVEC NOM SPÉCIFIQUE
+    # SAVE SILVER DATASET
     output_file = "minimized_silver_dataset.csv"
     cols_to_save = ["id", "rcn", "text", "label", "source", "conf", "justification"]
     final_cols = [c for c in cols_to_save if c in df_silver.columns]
@@ -177,16 +179,15 @@ def main():
     df_silver[final_cols].to_csv(output_file, index=False)
 
     print("-" * 30)
-    print(f"✅ SUCCÈS : Silver Dataset (règle MIN) généré : {len(df_silver)} lignes")
-    print(f"Sauvegardé sous : {output_file}")
+    print(f"Silver Dataset generated: {len(df_silver)} rows")
+    print(f"Saved as: {output_file}")
 
-    print("\nDistribution des Sources :")
+    print("\nSource Distribution:")
     print(df_silver["source"].value_counts())
 
     mean_conf_inf = df_silver[df_silver["source"] == "inference"]["conf"].mean()
-    print(f"\n🔍 Moyenne de confiance (Inférence uniquement) : {mean_conf_inf:.4f}")
-
-    print("\nDistribution des TRL :")
+    print(f"\n🔍 Average confidence (Inference only): {mean_conf_inf:.4f}")
+    print("\nTRL Distribution:")
     print(df_silver["label"].value_counts().sort_index())
     print("-" * 30)
 
