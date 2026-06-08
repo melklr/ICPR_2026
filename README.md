@@ -33,6 +33,9 @@ the code in this Github repository.
 
 ## Repository Structure
 
+- `requirements.txt` 
+  Provide requirements, Python version : 3.12.10
+
 - `01_data/`  
   Scripts and utilities related to data preparation.  
   - `01b_build_silver_minimize.py` (expected): builds a constrained “silver” version of the dataset from raw resources.
@@ -77,6 +80,9 @@ the code in this Github repository.
 ## Datasets
 
 The final datasets used in the experiments are stored in the `dataset/` folder:
+
+- `dataset/IEA_Clean_Guide.csv`  
+  Expert-annotated **Gold** corpus from IEA Clean Energy Technology Guide. (as available on their website)
 
 - `dataset/minimized_silver_dataset.csv`  
   Automatically labeled **Silver** corpus built from CORDIS project summaries using the hybrid weak supervision pipeline.
