@@ -103,6 +103,22 @@ This repository contains all scripts used to produce the experiments reported in
 pip install -r requirements.txt
 ```
 
+## Quick Start
+
+Clone the repository
+
+```bash
+git clone ...
+
+cd ICPR_2026
+```
+
+Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
 ## Running the experiments
 
 The experiments are independent and can be executed separately.
@@ -236,3 +252,17 @@ SciBERT few-shot adaptation:
 ```bash
 python 07_deeplearning/42_scibert_fewshot.py
 ```
+
+## Expected results
+
+The following scripts reproduce the main results reported in the paper.
+
+| Paper result | Script |
+|--------------|--------|
+| Classical baselines | 02_baseline/20_classification_full.py |
+| Hyperparameter search | 02_baseline/20b_svm_logreg_sweep.py |
+| Ordinal models | 03_ordinality/20c_two_stage_svm.py |
+| Grammar experiments | 04_grammar/21_classification_grammar_trl.py |
+| Regression experiments | 05_regression/30_regression_full.py |
+| Few-shot adaptation | 06_domainshift/21_classification_fewshot.py |
+| BERT / SciBERT | 07_deeplearning/41_scibert_master.py |
