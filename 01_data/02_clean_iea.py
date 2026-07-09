@@ -46,7 +46,7 @@ def parse_trl(val):
     except ValueError:
         return np.nan
 
-input_path = Path(r"C:\Users\Melusine\.venv\IEA_Clean_Tech_Guide (1).csv")
+input_path = ("\dataset\IEA_Clean_Tech_Guide.csv")
 if not input_path.exists():
     raise FileNotFoundError(f"{input_path} not found")
 
