@@ -19,8 +19,10 @@ and an external gold standard (IEA) for testing.
 # ==========================================
 # 0. Load datasets & define paths
 # ==========================================
-SILVER_PATH = "silver_dataset_master.csv"
-IEA_PATH = "IEA_Clean_Guide_Final_with_Text.csv"
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(REPO_ROOT, "dataset")
+SILVER_PATH = os.path.join(DATA_DIR, "minimized_silver_dataset.csv")
+IEA_PATH = os.path.join(DATA_DIR, "IEA_Clean_Guide_Final_with_Text.csv")
 OUTPUT_DIR = "./40_results_bert_vs_scibert"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 

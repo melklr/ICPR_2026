@@ -32,8 +32,10 @@ def clean_iea_trl(val):
 # configurations
 # ==========================================
 
-MODEL_PATH = "./scibert_final_model/final" 
-IEA_PATH = "C:\\Users\\Melusine\\.venv\\IEA_Clean_Guide_Final_with_Text.csv" 
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(REPO_ROOT, "dataset")
+MODEL_PATH = "./41_scibert_final_model/final"
+IEA_PATH = os.path.join(DATA_DIR, "IEA_Clean_Guide_Final_with_Text.csv")
 
 # Few-Shot Parameters
 FEW_SHOT_SIZE = 50   

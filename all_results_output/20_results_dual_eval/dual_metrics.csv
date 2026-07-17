@@ -1,0 +1,5 @@
+Model,Train Time,Silver Strict,Silver Relaxed,Gold Strict,Gold Relaxed,Drop (Domain Shift)
+SVM (Linear),48.2s,53.6%,64.3%,12.9%,50.3%,-14.0 pts
+Logistic Regression,54.1s,47.4%,60.8%,12.3%,41.6%,-19.3 pts
+Naive Bayes,42.5s,48.5%,59.4%,13.2%,65.7%,--6.3 pts
+Random Forest,60.2s,55.9%,64.2%,12.4%,66.6%,--2.4 pts

@@ -20,8 +20,10 @@ and adapted with a few examples from the gold standard (IEA), then tested on the
 # ==========================================
 # 0. Load datasets & define paths
 # ==========================================
-SILVER_PATH = "silver_dataset_master.csv"
-IEA_PATH = "IEA_Clean_Guide_Final_with_Text.csv"
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(REPO_ROOT, "dataset")
+SILVER_PATH = os.path.join(DATA_DIR, "minimized_silver_dataset.csv")
+IEA_PATH = os.path.join(DATA_DIR, "IEA_Clean_Guide_Final_with_Text.csv")
 OUTPUT_DIR = "./31_results_regression_fewshot"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 

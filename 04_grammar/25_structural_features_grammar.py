@@ -24,8 +24,10 @@ R1, R2, R3, R4 are evaluated on both an internal silver test set and an external
 # ==========================================
 # 0. Datasets & paths
 # ==========================================
-SILVER_PATH = "minimized_silver_dataset.csv"
-IEA_PATH = "IEA_Clean_Guide_Final_with_Text.csv"
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(REPO_ROOT, "dataset")
+SILVER_PATH = os.path.join(DATA_DIR, "minimized_silver_dataset.csv")
+IEA_PATH = os.path.join(DATA_DIR, "IEA_Clean_Guide_Final_with_Text.csv")
 OUTPUT_DIR = "./25_results_structural_grammar"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -310,7 +312,7 @@ def make_pipeline_R4(model):
 models = [
     ("SVM", LinearSVC(class_weight="balanced", C=0.1, dual="auto", random_state=42)),
     ("LogReg", LogisticRegression(class_weight="balanced", max_iter=1000, random_state=42)),
-    ("RF", RandomForestClassifier(n_estimators=100, class_weight="balanced", n_jobs=-1, random_state=42)),
+    ("RF", RandomForestClassifier(n_estimators=100, class_weight="balanced", n_jobs=1, random_state=42)),
 ]
 
 # ==========================================

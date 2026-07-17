@@ -1,0 +1,7 @@
+Model,Type,Test Set,Time (Train),Relaxed Acc,Strict Acc,MAE,F1 Macro
+Linear SVR,regression,Silver Test,38.0s,50.1%,18.0%,1.70,0.107
+Linear SVR,regression,Gold Test,38.0s,37.6%,13.7%,1.85,0.090
+Logistic Regression,classification,Silver Test,49.0s,60.8%,47.4%,1.74,0.351
+Logistic Regression,classification,Gold Test,49.0s,41.6%,12.3%,2.36,0.087
+Ridge Regression,regression,Silver Test,38.4s,45.3%,13.9%,1.77,0.090
+Ridge Regression,regression,Gold Test,38.4s,37.7%,13.6%,1.98,0.098

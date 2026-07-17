@@ -1,6 +1,7 @@
 import matplotlib
 import pandas as pd
 import numpy as np
+import os
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, f1_score
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer, TrainingArguments
@@ -21,8 +22,10 @@ Also generate visualizations for analysis.
 # ==========================================
 # 1. DEFINE PATHS & PARAMETERS
 # ==========================================
-SILVER_PATH = "C:\\Users\\Melusine\\.venv\\silver_dataset_master.csv"
-IEA_PATH = "C:\\Users\\Melusine\\.venv\\IEA_Clean_Guide_Final_with_Text.csv" # Pour le test final
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(REPO_ROOT, "dataset")
+SILVER_PATH = os.path.join(DATA_DIR, "minimized_silver_dataset.csv")
+IEA_PATH = os.path.join(DATA_DIR, "IEA_Clean_Guide_Final_with_Text.csv")
 MODEL_NAME = "allenai/scibert_scivocab_uncased"
 OUTPUT_DIR = "./41_scibert_final_model"
 

@@ -1,0 +1,5 @@
+Model,Relaxed Acc,Strict Acc,F1 Macro,MAE,Time
+SVM (Linear),53.8%,20.0%,0.170,1.96,63.1s
+Naive Bayes,63.7%,23.6%,0.162,1.56,51.0s
+Random Forest,66.8%,19.0%,0.098,1.63,365.5s
+Logistic Reg.,50.5%,19.5%,0.152,2.04,69.6s

@@ -46,7 +46,8 @@ def parse_trl(val):
     except ValueError:
         return np.nan
 
-input_path = ("\dataset\IEA_Clean_Tech_Guide.csv")
+repo_root = Path(__file__).resolve().parents[1]
+input_path = repo_root / "dataset" / "IEA_Clean_Tech_Guide.csv"
 if not input_path.exists():
     raise FileNotFoundError(f"{input_path} not found")
 
@@ -74,7 +75,7 @@ df.loc[df["trl_final"] > 9, "trl_final"] = 9.0
 print(f"Capped {initial_count_gt_9} rows where trl_final > 9 to 9")
 
 # save to a new file (does not overwrite original)
-output_path = input_path.with_name(input_path.stem + "_with_trl_final" + input_path.suffix)
+output_path = repo_root / "dataset" / "IEA_Clean_Guide_Final_with_Text.csv"
 df.to_csv(output_path, index=False)
 
 print(f"Saved with new column 'trl_final' to: {output_path}")

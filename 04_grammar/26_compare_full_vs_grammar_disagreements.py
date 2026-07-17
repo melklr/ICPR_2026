@@ -52,8 +52,8 @@ for name, col in [("R1_fulltext", "err_R1"), ("R2_grammar", "err_R2")]:
 
 # 3) ERROR DISTRIBUTION
 plt.figure(figsize=(8,4))
-sns.kdeplot(df["err_R1"], label="R1 fulltext", shade=True)
-sns.kdeplot(df["err_R2"], label="R2 grammar+TRL", shade=True)
+sns.kdeplot(df["err_R1"], label="R1 fulltext", fill=True)
+sns.kdeplot(df["err_R2"], label="R2 grammar+TRL", fill=True)
 plt.axvline(0, color="black", linestyle="--")
 plt.xlabel("Error (prediction - IEA label)")
 plt.title("Error distribution SVM R1 vs R2 (IEA)")

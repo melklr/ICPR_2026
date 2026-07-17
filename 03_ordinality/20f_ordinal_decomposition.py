@@ -17,8 +17,10 @@ The final TRL prediction is reconstructed from these probabilities.
 #=========================================
 # 0. Load datasets & define paths
 #=========================================
-SILVER_PATH = "minimized_silver_dataset.csv"
-IEA_PATH = "IEA_Clean_Guide_Final_with_Text.csv"
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(REPO_ROOT, "dataset")
+SILVER_PATH = os.path.join(DATA_DIR, "minimized_silver_dataset.csv")
+IEA_PATH = os.path.join(DATA_DIR, "IEA_Clean_Guide_Final_with_Text.csv")
 OUTPUT_DIR = "./20f_ordinal_decomposition_results"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 

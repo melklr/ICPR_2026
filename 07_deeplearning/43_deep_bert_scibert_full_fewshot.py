@@ -15,8 +15,10 @@ Congregate all deep learning experiments (zero-shot and few-shot, BERT and SciBE
 # ==========================================
 # 0.Load datasets and models
 # ==========================================
-SILVER_PATH = "minimized_silver_dataset.csv"
-IEA_PATH = "IEA_Clean_Guide_Final_with_Text.csv"
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(REPO_ROOT, "dataset")
+SILVER_PATH = os.path.join(DATA_DIR, "minimized_silver_dataset.csv")
+IEA_PATH = os.path.join(DATA_DIR, "IEA_Clean_Guide_Final_with_Text.csv")
 OUTPUT_DIR = "./43_deep_all_results"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 

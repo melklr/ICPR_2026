@@ -1,0 +1,3 @@
+Model,Type,Relaxed Acc,Strict Acc,MAE,F1 Macro,Time
+Ridge Regression,Regression (Few-Shot),42.6%,17.3%,1.83,0.126,51.9s
+Linear SVR,Regression (Few-Shot),45.1%,17.5%,1.74,0.113,55.1s

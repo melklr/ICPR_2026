@@ -20,8 +20,10 @@ and tested on the silver dataset (Cordis).
 # ==========================================
 # 0. Load datasets & define paths
 # ==========================================
-IEA_PATH = "IEA_Clean_Guide_Final_with_Text.csv"
-SILVER_PATH = "silver_dataset_master.csv"
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(REPO_ROOT, "dataset")
+IEA_PATH = os.path.join(DATA_DIR, "IEA_Clean_Guide_Final_with_Text.csv")
+SILVER_PATH = os.path.join(DATA_DIR, "minimized_silver_dataset.csv")
 OUTPUT_DIR = "./50_results_svm_iea_to_silver"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 

@@ -22,8 +22,10 @@ and adapted with a few examples from the gold standard (IEA), then tested on the
 # ==========================================
 # 0. Load datasets & define paths
 # ==========================================
-SILVER_PATH = "C:\\Users\\Melusine\\.venv\\silver_dataset_master.csv"
-IEA_PATH = "C:\\Users\\Melusine\\.venv\\IEA_Clean_Guide_Final_with_Text.csv"
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(REPO_ROOT, "dataset")
+SILVER_PATH = os.path.join(DATA_DIR, "minimized_silver_dataset.csv")
+IEA_PATH = os.path.join(DATA_DIR, "IEA_Clean_Guide_Final_with_Text.csv")
 OUTPUT_DIR = "./21_results_fewshot_all"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -128,7 +130,7 @@ print(f"Final Training Dataset: {len(df_train_final)} rows")
 models = [
     ("SVM (Linear)", LinearSVC(class_weight='balanced', C=0.1, dual='auto', random_state=42)),
     ("Naive Bayes", MultinomialNB(alpha=0.1)),
-    ("Random Forest", RandomForestClassifier(n_estimators=100, class_weight='balanced', n_jobs=-1, random_state=42)),
+    ("Random Forest", RandomForestClassifier(n_estimators=100, class_weight='balanced', n_jobs=1, random_state=42)),
     ("Logistic Reg.", LogisticRegression(class_weight='balanced', C=1.0, max_iter=1000))
 ]
 

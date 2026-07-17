@@ -133,13 +133,15 @@ class TRLDetectorInferrerMin:
 # 2. MAIN PIPELINE
 # ==========================================
 def main():
-    PROJECTS_FILE = r"C:\Users\Melusine\.venv\project.csv"
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    projects_file = os.path.join(repo_root, "dataset", "project.csv")
+    output_file = os.path.join(repo_root, "dataset", "minimized_silver_dataset.csv")
 
-    print(f"--- Loading files: {PROJECTS_FILE} ---")
+    print(f"--- Loading files: {projects_file} ---")
     try:
-        df = pd.read_csv(PROJECTS_FILE, sep=";", on_bad_lines="skip", low_memory=False)
+        df = pd.read_csv(projects_file, sep=";", on_bad_lines="skip", low_memory=False)
         if len(df.columns) < 3:
-            df = pd.read_csv(PROJECTS_FILE, sep=",", on_bad_lines="skip", low_memory=False)
+            df = pd.read_csv(projects_file, sep=",", on_bad_lines="skip", low_memory=False)
     except Exception as e:
         print(f"Error reading file: {e}")
         return
@@ -172,7 +174,6 @@ def main():
     df_silver["label"] = df_silver["label"].astype(int)
 
     # SAVE SILVER DATASET
-    output_file = "minimized_silver_dataset.csv"
     cols_to_save = ["id", "rcn", "text", "label", "source", "conf", "justification"]
     final_cols = [c for c in cols_to_save if c in df_silver.columns]
 
