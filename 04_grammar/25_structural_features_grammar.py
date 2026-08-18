@@ -199,8 +199,8 @@ print("Loading datasets")
 df_silver = pd.read_csv(SILVER_PATH).dropna(subset=["text", "label"])
 df_silver["label"] = df_silver["label"].astype(int)
 
-X_text = df_silver["text"].values
-y = df_silver["label"].values
+X_text = df_silver["text"].to_numpy()
+y = df_silver["label"].to_numpy()
 
 X_train_text, X_test_silver_text, y_train, y_test_silver = train_test_split(
     X_text, y, test_size=0.2, random_state=42, stratify=y
@@ -208,8 +208,8 @@ X_train_text, X_test_silver_text, y_train, y_test_silver = train_test_split(
 
 train_idx = df_silver.sample(frac=1, random_state=42).index[:len(X_train_text)]
 df_silver = df_silver.reset_index(drop=True)
-X_text = df_silver["text"].values
-y = df_silver["label"].values
+X_text = df_silver["text"].to_numpy()
+y = df_silver["label"].to_numpy()
 
 X_train_text, X_test_silver_text, y_train, y_test_silver, idx_train, idx_test_silver = train_test_split(
     X_text, y, np.arange(len(df_silver)),
@@ -221,8 +221,8 @@ df_gold = pd.read_csv(IEA_PATH)
 df_gold = df_gold.dropna(subset=["text", "trl_final"])
 df_gold = df_gold[(df_gold["trl_final"] >= 1) & (df_gold["trl_final"] <= 9)]
 df_gold["label"] = df_gold["trl_final"].astype(int)
-X_test_gold_text = df_gold["text"].values
-y_test_gold = df_gold["label"].values
+X_test_gold_text = df_gold["text"].to_numpy()
+y_test_gold = df_gold["label"].to_numpy()
 
 # R1 : full-text
 X_train_R1 = X_train_text
@@ -233,9 +233,9 @@ X_gold_R1 = X_test_gold_text
 df_silver["text_grammar"] = df_silver["text"].apply(text_grammar_view)
 df_gold["text_grammar"] = df_gold["text"].apply(text_grammar_view)
 
-X_train_R2 = df_silver.loc[idx_train, "text_grammar"].values
-X_silver_R2 = df_silver.loc[idx_test_silver, "text_grammar"].values
-X_gold_R2 = df_gold["text_grammar"].values
+X_train_R2 = df_silver.loc[idx_train, "text_grammar"].to_numpy()
+X_silver_R2 = df_silver.loc[idx_test_silver, "text_grammar"].to_numpy()
+X_gold_R2 = df_gold["text_grammar"].to_numpy()
 
 # R3 : structural_features
 struct_silver = df_silver["text"].apply(extract_structural_features)

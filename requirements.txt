@@ -1,9 +1,9 @@
-numpy
-pandas
-scikit-learn
-matplotlib
-seaborn
-torch
-transformers
-datasets
+numpy>=1.24.0
+pandas>=2.1.0
+scikit-learn>=1.2.2
+matplotlib>=3.5.0
+seaborn>=0.12.0
+torch>=2.1.0
+transformers>=4.30.0
+datasets>=2.12.0
 accelerate>=0.26.0
